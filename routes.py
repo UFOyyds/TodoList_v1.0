@@ -14,7 +14,7 @@ def add_todo():
         new_todo = Todo(content=content)
         db.session.add(new_todo)
         db.session.commit()
-        socketio.emit('new_todo', new_todo.to_dict(), broadcast=True)
+        socketio.emit('new_todo', new_todo.to_dict())
         return jsonify(success=True, todo=new_todo.to_dict())
     return jsonify(success=False, error="Content is required"), 400
 
