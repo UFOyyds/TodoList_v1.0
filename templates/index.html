@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-6 text-center">Todo List App</h1>
+        <form id="todo-form" class="mb-6">
+            <div class="flex">
+                <input type="text" id="todo-input" class="flex-grow p-2 border rounded-l" placeholder="Add a new todo" required>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r">Add</button>
+            </div>
+        </form>
+        <ul id="todo-list" class="bg-white rounded shadow">
+            {% for todo in todos %}
+            <li class="todo-item flex items-center justify-between p-2 border-b {% if todo.completed %}completed{% endif %}" data-id="{{ todo.id }}">
+                <span class="flex-grow">{{ todo.content }}</span>
+                <button class="toggle-todo px-2 py-1 bg-blue-500 text-white rounded mr-2">Toggle</button>
+                <button class="delete-todo px-2 py-1 bg-red-500 text-white rounded">Delete</button>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
