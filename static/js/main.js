@@ -19,7 +19,7 @@ todoForm.addEventListener('submit', (e) => {
         .then(data => {
             if (data.success) {
                 todoInput.value = '';
-                addTodoToList(data.todo);
+                // Removed: addTodoToList(data.todo);
             }
         });
     }
