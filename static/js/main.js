@@ -27,7 +27,7 @@ todoForm.addEventListener('submit', (e) => {
 
 function createTodoElement(todo) {
     const li = document.createElement('li');
-    li.className = `todo-item flex items-center justify-between p-2 border-b ${todo.completed ? 'completed' : ''}`;
+    li.className = `todo-item flex items-center justify-between p-3 border-b ${todo.completed ? 'completed' : ''}`;
     li.setAttribute('data-id', todo.id);
     li.innerHTML = `
         <span class="flex-grow">${todo.content}</span>
@@ -45,7 +45,7 @@ function addTodoToList(todo) {
 function updateTodoInList(todo) {
     const todoElement = todoList.querySelector(`[data-id="${todo.id}"]`);
     if (todoElement) {
-        todoElement.className = `todo-item flex items-center justify-between p-2 border-b ${todo.completed ? 'completed' : ''}`;
+        todoElement.className = `todo-item flex items-center justify-between p-3 border-b ${todo.completed ? 'completed' : ''}`;
         todoElement.querySelector('span').textContent = todo.content;
     }
 }
