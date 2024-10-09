@@ -2,16 +2,18 @@
 
 body {
     background-image: url('../images/7b41a790-36c5-4bff-8cf2-cbfa355ecc3c_0.png');
-    background-size: cover;
+    background-size: contain;
+    background-repeat: repeat;
     background-position: center;
     background-attachment: fixed;
 }
 
 .container {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     padding: 20px;
     margin-top: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
