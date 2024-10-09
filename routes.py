@@ -18,12 +18,12 @@ def add_todo():
         return jsonify(success=True, todo=new_todo.to_dict())
     return jsonify(success=False, error="Content is required"), 400
 
-@app.route('/update_todo/<int:todo_id>', methods=['POST'])
+@app.route('/update_todo/<int:todo_id>', methods=['POST', 'GET'])
 def update_todo(todo_id):
     todo = Todo.query.get_or_404(todo_id)
     todo.completed = not todo.completed
     db.session.commit()
-    socketio.emit('update_todo', todo.to_dict(), broadcast=True)
+    socketio.emit('update_todo', todo.to_dict())
     return jsonify(success=True, todo=todo.to_dict())
 
 @app.route('/delete_todo/<int:todo_id>', methods=['POST'])
@@ -31,7 +31,7 @@ def delete_todo(todo_id):
     todo = Todo.query.get_or_404(todo_id)
     db.session.delete(todo)
     db.session.commit()
-    socketio.emit('delete_todo', {'id': todo_id}, broadcast=True)
+    socketio.emit('delete_todo', {'id': todo_id})
     return jsonify(success=True)
 
 @socketio.on('connect')

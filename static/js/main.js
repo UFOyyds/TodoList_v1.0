@@ -64,9 +64,21 @@ todoList.addEventListener('click', (e) => {
     const todoId = todoItem.getAttribute('data-id');
 
     if (e.target.classList.contains('toggle-todo')) {
-        fetch(`/update_todo/${todoId}`, { method: 'POST' });
+        fetch(`/update_todo/${todoId}`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateTodoInList(data.todo);
+                }
+            });
     } else if (e.target.classList.contains('delete-todo')) {
-        fetch(`/delete_todo/${todoId}`, { method: 'POST' });
+        fetch(`/delete_todo/${todoId}`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    removeTodoFromList(todoId);
+                }
+            });
     }
 });
 
