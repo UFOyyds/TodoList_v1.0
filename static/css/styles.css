@@ -1,6 +1,9 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
+    background-image: url('../images/metarobot..png');
+    background-repeat: repeat;
+    background-size: 100px auto; /* 调整这个值以适应您的图片大小 */
     margin: 0;
     padding: 0;
     display: flex;
@@ -10,7 +13,7 @@ body {
 }
 
 .container {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -62,7 +65,7 @@ h1 {
     display: flex;
     align-items: center;
     padding: 10px;
-    background-color: #f9f9f9;
+    background-color: rgba(249, 249, 249, 0.9);
     border-radius: 5px;
     margin-bottom: 10px;
     transition: opacity 0.3s ease-in-out;
