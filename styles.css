@@ -1,0 +1,11 @@
+.header-icon {
+  height: 40px; /* 根据需要调整大小 */
+  margin: 0 10px; /* 在图标和文字之间添加一些间距 */
+  vertical-align: middle;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

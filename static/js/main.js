@@ -1,100 +1,65 @@
-const socket = io();
+document.addEventListener('DOMContentLoaded', () => {
+    const todoList = document.getElementById('todo-list');
+    const newTodoInput = document.getElementById('new-todo');
+    const addTodoButton = document.getElementById('add-todo');
 
-const todoList = document.getElementById('todo-list');
-const todoForm = document.getElementById('todo-form');
-const todoInput = document.getElementById('todo-input');
+    // 初始待办事项
+    const initialTodos = [
+        '完成项目报告',
+        '准备周会演示',
+        '回复重要邮件'
+    ];
 
-todoForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const content = todoInput.value.trim();
-    if (content) {
-        fetch('/add_todo', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `content=${encodeURIComponent(content)}`,
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                todoInput.value = '';
-                // Removed: addTodoToList(data.todo);
-            }
-        });
+    function createTodoElement(todoText) {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span class="todo-text">${todoText}</span>
+            <button class="toggle-todo">切换</button>
+            <button class="delete-todo">删除</button>
+        `;
+        return li;
     }
-});
 
-function createTodoElement(todo) {
-    const li = document.createElement('li');
-    li.className = `todo-item flex items-center justify-between p-3 border-b ${todo.completed ? 'completed' : ''}`;
-    li.setAttribute('data-id', todo.id);
-    li.innerHTML = `
-        <span class="flex-grow">${todo.content}</span>
-        <button class="toggle-todo px-2 py-1 bg-blue-500 text-white rounded mr-2">Toggle</button>
-        <button class="delete-todo px-2 py-1 bg-red-500 text-white rounded">Delete</button>
-    `;
-    return li;
-}
-
-function addTodoToList(todo) {
-    const todoElement = createTodoElement(todo);
-    todoList.insertBefore(todoElement, todoList.firstChild);
-}
-
-function updateTodoInList(todo) {
-    const todoElement = todoList.querySelector(`[data-id="${todo.id}"]`);
-    if (todoElement) {
-        todoElement.className = `todo-item flex items-center justify-between p-3 border-b ${todo.completed ? 'completed' : ''}`;
-        todoElement.querySelector('span').textContent = todo.content;
+    function addTodo(todoText) {
+        const todoElement = createTodoElement(todoText);
+        todoList.appendChild(todoElement);
+        todoElement.style.opacity = '0';
+        setTimeout(() => {
+            todoElement.style.transition = 'opacity 0.3s ease-in-out';
+            todoElement.style.opacity = '1';
+        }, 10);
     }
-}
 
-function removeTodoFromList(todoId) {
-    const todoElement = todoList.querySelector(`[data-id="${todoId}"]`);
-    if (todoElement) {
-        todoElement.remove();
+    function handleAddTodo() {
+        const todoText = newTodoInput.value.trim();
+        if (todoText) {
+            addTodo(todoText);
+            newTodoInput.value = '';
+        }
     }
-}
 
-todoList.addEventListener('click', (e) => {
-    const todoItem = e.target.closest('.todo-item');
-    if (!todoItem) return;
+    addTodoButton.addEventListener('click', handleAddTodo);
 
-    const todoId = todoItem.getAttribute('data-id');
+    newTodoInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            handleAddTodo();
+        }
+    });
 
-    if (e.target.classList.contains('toggle-todo')) {
-        fetch(`/update_todo/${todoId}`, { method: 'POST' })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    updateTodoInList(data.todo);
-                }
-            });
-    } else if (e.target.classList.contains('delete-todo')) {
-        fetch(`/delete_todo/${todoId}`, { method: 'POST' })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    removeTodoFromList(todoId);
-                }
-            });
-    }
-});
+    todoList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('toggle-todo')) {
+            const todoText = e.target.parentElement.querySelector('.todo-text');
+            todoText.classList.toggle('completed');
+        } else if (e.target.classList.contains('delete-todo')) {
+            const li = e.target.parentElement;
+            li.style.transition = 'opacity 0.3s ease-in-out';
+            li.style.opacity = '0';
+            setTimeout(() => {
+                li.remove();
+            }, 300);
+        }
+    });
 
-socket.on('new_todo', (todo) => {
-    addTodoToList(todo);
-});
-
-socket.on('update_todo', (todo) => {
-    updateTodoInList(todo);
-});
-
-socket.on('delete_todo', (data) => {
-    removeTodoFromList(data.id);
-});
-
-socket.on('init_todos', (todos) => {
-    todoList.innerHTML = '';
-    todos.forEach(todo => addTodoToList(todo));
+    // 添加初始待办事项
+    initialTodos.forEach(todo => addTodo(todo));
 });

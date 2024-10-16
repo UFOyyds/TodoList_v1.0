@@ -1,33 +1,106 @@
-@import 'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css';
-
 body {
-    background-image: url('../images/7b41a790-36c5-4bff-8cf2-cbfa355ecc3c_0.png');
-    background-size: auto;
-    background-repeat: repeat;
-    background-position: center;
-    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
 .container {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: white;
     border-radius: 10px;
     padding: 20px;
-    margin-top: 50px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
 }
 
 h1 {
+    text-align: center;
     color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
 }
 
-.todo-item {
-    background-color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 10px;
+.todo-input {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#new-todo {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+}
+
+#add-todo {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#add-todo:hover {
+    background-color: #45a049;
+}
+
+#todo-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#todo-list li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f9f9f9;
     border-radius: 5px;
-    transition: all 0.3s ease;
+    margin-bottom: 10px;
+    transition: opacity 0.3s ease-in-out;
 }
 
-.todo-item.completed {
-    opacity: 0.6;
+.todo-text {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.completed {
     text-decoration: line-through;
+    color: #888;
+}
+
+.toggle-todo, .delete-todo {
+    padding: 5px 10px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.toggle-todo {
+    background-color: #2196F3;
+    color: white;
+}
+
+.toggle-todo:hover {
+    background-color: #1e87db;
+}
+
+.delete-todo {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete-todo:hover {
+    background-color: #da190b;
 }
