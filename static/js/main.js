@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const li = document.createElement('li');
         li.innerHTML = `
             <span class="todo-text">${todoText}</span>
-            <button class="toggle-todo">切换</button>
+            <button class="toggle-todo">完成</button>
             <button class="delete-todo">删除</button>
         `;
         return li;
