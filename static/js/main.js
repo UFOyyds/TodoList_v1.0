@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 初始待办事项
     const initialTodos = [
-        '完成项目报告',
-        '准备周会演示',
-        '回复重要邮件'
+        '完成刘大傻待办的草稿',
+        '给Mix-Cursor-交流001群汇报展示',
+        '滚到单位上晚班'
     ];
 
     function createTodoElement(todoText) {
@@ -50,6 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.classList.contains('toggle-todo')) {
             const todoText = e.target.parentElement.querySelector('.todo-text');
             todoText.classList.toggle('completed');
+            if (todoText.classList.contains('completed')) {
+                e.target.textContent = '恢复';
+            } else {
+                e.target.textContent = '完成';
+            }
         } else if (e.target.classList.contains('delete-todo')) {
             const li = e.target.parentElement;
             li.style.transition = 'opacity 0.3s ease-in-out';
