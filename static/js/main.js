@@ -10,13 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
         '滚到单位上晚班'
     ];
 
+    let draggedItem = null;
+
     function createTodoElement(todoText) {
         const li = document.createElement('li');
+        li.draggable = true;
         li.innerHTML = `
             <span class="todo-text">${todoText}</span>
             <button class="toggle-todo">完成</button>
             <button class="delete-todo">删除</button>
         `;
+        li.addEventListener('dragstart', dragStart);
+        li.addEventListener('dragend', dragEnd);
         return li;
     }
 
@@ -64,6 +69,48 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 300);
         }
     });
+
+    // 拖拽相关函数
+    function dragStart(e) {
+        draggedItem = this;
+        setTimeout(() => {
+            this.style.opacity = '0.5';
+        }, 0);
+    }
+
+    function dragEnd() {
+        setTimeout(() => {
+            this.style.opacity = '1';
+            draggedItem = null;
+        }, 0);
+    }
+
+    function dragOver(e) {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(todoList, e.clientY);
+        const currentElement = draggedItem;
+        if (afterElement == null) {
+            todoList.appendChild(draggedItem);
+        } else {
+            todoList.insertBefore(draggedItem, afterElement);
+        }
+    }
+
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('li:not(.dragging)')];
+        
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    todoList.addEventListener('dragover', dragOver);
 
     // 添加初始待办事项
     initialTodos.forEach(todo => addTodo(todo));
